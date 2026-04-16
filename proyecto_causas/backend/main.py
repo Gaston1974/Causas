@@ -17,13 +17,13 @@ app = FastAPI(
     version="1.0.0",
 )
 
-#app.add_middleware(
-#    CORSMiddleware,
-#    allow_origins=["*"],#[settings.FRONTEND_ORIGIN, "http://127.0.0.1:3000"],# "http://10.50.22.142:3001", "http://10.50.22.142:3002"],
-#    allow_credentials=False,
-#    allow_methods=["*"],
-#    allow_headers=["*"],
-#)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],#[settings.FRONTEND_ORIGIN, "http://127.0.0.1:3000"],# "http://10.50.22.142:3001", "http://10.50.22.142:3002"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/v1/html/health")
