@@ -273,3 +273,313 @@ class MesaEntrada(BaseModel):
 class MesaEntradasListResponse(BaseModel):
     entradas: List[MesaEntrada]
     total: int
+
+
+# ---------------------------------------------------------------------------
+# Origen de la Causa
+# ---------------------------------------------------------------------------
+
+class CausaOrigenBase(BaseModel):
+    causa_id: int
+    origen_tipo: str                         # UNIDAD | JUDICATURA
+    subtipo_unidad: Optional[str] = None     # NOTITIA_CRIMINIS | REGISTRO_INFORMANTE | OTRA
+    descripcion_unidad: Optional[str] = None
+    denuncia_anonima: Optional[bool] = False
+    descripcion_judicatura: Optional[str] = None
+    observaciones: Optional[str] = None
+
+class CausaOrigenCreate(CausaOrigenBase):
+    pass
+
+class CausaOrigenResponse(CausaOrigenBase):
+    id: int
+    fecha_creacion: datetime
+    fecha_actualizacion: datetime
+
+    class Config:
+        from_attributes = True
+
+
+# ---------------------------------------------------------------------------
+# Teléfonos Intervenidos
+# ---------------------------------------------------------------------------
+
+class CausaTelefonoBase(BaseModel):
+    causa_id: int
+    numero_linea: str
+    titular: Optional[str] = None
+    modalidad: str                           # DIRECTA | DIFERIDA
+    observaciones: Optional[str] = None
+    fecha_inicio: Optional[str] = None
+    fecha_fin: Optional[str] = None
+
+class CausaTelefonoCreate(CausaTelefonoBase):
+    pass
+
+class CausaTelefonoResponse(CausaTelefonoBase):
+    id: int
+    fecha_creacion: datetime
+    fecha_actualizacion: datetime
+
+    class Config:
+        from_attributes = True
+
+class CausaTelefonosList(BaseModel):
+    telefonos: List[CausaTelefonoResponse]
+    total: int
+
+
+# ---------------------------------------------------------------------------
+# Técnicas Especiales Investigativas
+# ---------------------------------------------------------------------------
+
+class CausaTecnicaBase(BaseModel):
+    causa_id: int
+    tipo: str                                # AGENTE_ENCUBIERTO | AGENTE_REVELADOR | ...
+    descripcion: Optional[str] = None
+    fecha_inicio: Optional[str] = None
+    fecha_fin: Optional[str] = None
+    resultado: Optional[str] = None
+    observaciones: Optional[str] = None
+
+class CausaTecnicaCreate(CausaTecnicaBase):
+    pass
+
+class CausaTecnicaResponse(CausaTecnicaBase):
+    id: int
+    fecha_creacion: datetime
+    fecha_actualizacion: datetime
+
+    class Config:
+        from_attributes = True
+
+class CausaTecnicasList(BaseModel):
+    tecnicas: List[CausaTecnicaResponse]
+    total: int
+
+
+# ---------------------------------------------------------------------------
+# Oficios / Elevación
+# ---------------------------------------------------------------------------
+
+class CausaOficioBase(BaseModel):
+    causa_id: int
+    tipo: str                                # ELEVACION | INFORME | NOTIFICACION | REQUERIMIENTO | OTRO
+    numero_oficio: Optional[str] = None
+    fecha_oficio: Optional[str] = None
+    destinatario: str
+    descripcion: str
+    nota_elevacion: Optional[str] = None
+    fecha_elevacion: Optional[str] = None
+    observaciones: Optional[str] = None
+
+class CausaOficioCreate(CausaOficioBase):
+    pass
+
+class CausaOficioResponse(CausaOficioBase):
+    id: int
+    fecha_creacion: datetime
+    fecha_actualizacion: datetime
+
+    class Config:
+        from_attributes = True
+
+class CausaOficiosList(BaseModel):
+    oficios: List[CausaOficioResponse]
+    total: int
+
+
+# ---------------------------------------------------------------------------
+# Allanamiento — Sub-modelos base
+# ---------------------------------------------------------------------------
+
+class AllanamientoDomicilioBase(BaseModel):
+    calles: str
+    provincia: Optional[str] = None
+    partido: Optional[str] = None
+    localidad: Optional[str] = None
+    latitud: Optional[str] = None
+    longitud: Optional[str] = None
+
+class AllanamientoDomicilioResponse(AllanamientoDomicilioBase):
+    id: int
+    allanamiento_id: int
+    class Config:
+        from_attributes = True
+
+
+class AllanamientoArmaBase(BaseModel):
+    tipo_arma: str
+    calibre: Optional[str] = None
+    marca: Optional[str] = None
+    origen: Optional[str] = None
+    asociado_delito: Optional[str] = None
+    deposito_judicial: Optional[str] = None
+
+class AllanamientoArmaResponse(AllanamientoArmaBase):
+    id: int
+    allanamiento_id: int
+    class Config:
+        from_attributes = True
+
+
+class AllanamientoVehiculoBase(BaseModel):
+    tipo_vehiculo: str
+    marca: Optional[str] = None
+    modelo: Optional[str] = None
+    origen: Optional[str] = None
+    asociado_delito: Optional[str] = None
+    deposito_judicial: Optional[str] = None
+
+class AllanamientoVehiculoResponse(AllanamientoVehiculoBase):
+    id: int
+    allanamiento_id: int
+    class Config:
+        from_attributes = True
+
+
+class AllanamientoCigarrilloBase(BaseModel):
+    tipo_cigarrillo: str
+    marca: Optional[str] = None
+    unidad: Optional[str] = None
+    origen: Optional[str] = None
+    deposito_judicial: Optional[str] = None
+
+class AllanamientoCigarrilloResponse(AllanamientoCigarrilloBase):
+    id: int
+    allanamiento_id: int
+    class Config:
+        from_attributes = True
+
+
+class AllanamientoEstupefacienteBase(BaseModel):
+    tipo_estupefaciente: str
+    cantidad_kgs: Optional[str] = None
+    origen: Optional[str] = None
+    deposito_judicial: Optional[str] = None
+
+class AllanamientoEstupefacienteResponse(AllanamientoEstupefacienteBase):
+    id: int
+    allanamiento_id: int
+    class Config:
+        from_attributes = True
+
+
+class AllanamientoDivisaBase(BaseModel):
+    tipo_divisa: str
+    cantidad: Optional[str] = None
+    origen: Optional[str] = None
+    deposito_judicial: Optional[str] = None
+
+class AllanamientoDivisaResponse(AllanamientoDivisaBase):
+    id: int
+    allanamiento_id: int
+    class Config:
+        from_attributes = True
+
+
+class AllanamientoDetenidoBase(BaseModel):
+    nombre_apellido: str
+    dni: Optional[str] = None
+    edad: Optional[str] = None
+    nacionalidad: Optional[str] = None
+    estado_detencion: Optional[str] = None
+
+class AllanamientoDetenidoResponse(AllanamientoDetenidoBase):
+    id: int
+    allanamiento_id: int
+    class Config:
+        from_attributes = True
+
+
+class AllanamientoRescatadoBase(BaseModel):
+    sexo: Optional[str] = None
+    edad: Optional[str] = None
+    nacionalidad: Optional[str] = None
+
+class AllanamientoRescatadoResponse(AllanamientoRescatadoBase):
+    id: int
+    allanamiento_id: int
+    class Config:
+        from_attributes = True
+
+
+class AllanamientoTecnologiaBase(BaseModel):
+    tipo_objeto: str
+    marca: Optional[str] = None
+    modelo: Optional[str] = None
+
+class AllanamientoTecnologiaResponse(AllanamientoTecnologiaBase):
+    id: int
+    allanamiento_id: int
+    class Config:
+        from_attributes = True
+
+
+# ---------------------------------------------------------------------------
+# Allanamiento — Cabecera (con sub-listas anidadas)
+# ---------------------------------------------------------------------------
+
+class CausaAllanamientoCreate(BaseModel):
+    causa_id: int
+    positivo: bool = False
+    fecha_allanamiento: Optional[str] = None
+    observaciones: Optional[str] = None
+    # Listas de ítems (se upsert-ean en la misma petición)
+    domicilios: List[AllanamientoDomicilioBase] = []
+    armas: List[AllanamientoArmaBase] = []
+    vehiculos: List[AllanamientoVehiculoBase] = []
+    cigarrillos: List[AllanamientoCigarrilloBase] = []
+    estupefacientes: List[AllanamientoEstupefacienteBase] = []
+    divisas: List[AllanamientoDivisaBase] = []
+    detenidos: List[AllanamientoDetenidoBase] = []
+    rescatados: List[AllanamientoRescatadoBase] = []
+    tecnologia: List[AllanamientoTecnologiaBase] = []
+
+
+class CausaAllanamientoResponse(BaseModel):
+    id: int
+    causa_id: int
+    positivo: bool
+    fecha_allanamiento: Optional[str] = None
+    observaciones: Optional[str] = None
+    fecha_creacion: datetime
+    fecha_actualizacion: datetime
+    domicilios: List[AllanamientoDomicilioResponse] = []
+    armas: List[AllanamientoArmaResponse] = []
+    vehiculos: List[AllanamientoVehiculoResponse] = []
+    cigarrillos: List[AllanamientoCigarrilloResponse] = []
+    estupefacientes: List[AllanamientoEstupefacienteResponse] = []
+    divisas: List[AllanamientoDivisaResponse] = []
+    detenidos: List[AllanamientoDetenidoResponse] = []
+    rescatados: List[AllanamientoRescatadoResponse] = []
+    tecnologia: List[AllanamientoTecnologiaResponse] = []
+
+    class Config:
+        from_attributes = True
+
+
+# ---------------------------------------------------------------------------
+# Vinculación SGO — Causa
+# ---------------------------------------------------------------------------
+
+class CausaSGOBase(BaseModel):
+    causa_id: int
+    nro_sgo: str
+    descripcion: Optional[str] = None
+    fecha_vinculacion: Optional[str] = None
+    observaciones: Optional[str] = None
+
+class CausaSGOCreate(CausaSGOBase):
+    pass
+
+class CausaSGOResponse(CausaSGOBase):
+    id: int
+    fecha_creacion: datetime
+
+    class Config:
+        from_attributes = True
+
+class CausaSGOsList(BaseModel):
+    sgos: List[CausaSGOResponse]
+    total: int
