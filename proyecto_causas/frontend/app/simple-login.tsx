@@ -118,7 +118,7 @@ export default function SimpleLogin() {
         ce: newUser.ce,
         dni: newUser.ce.toString(),
         username: newUser.ce,
-        email: `${newUser.ce}@gna.gob.ar`,
+        email: `${newUser.ce}`,
 
         // Ubicación por defecto
         provincia_id: "1",
@@ -292,7 +292,7 @@ export default function SimpleLogin() {
                           id="d-grado"
                           value={newUser.grado}
                           onChange={e => setNewUser({ ...newUser, grado: e.target.value })}
-                          placeholder="Oficial"
+                          placeholder="Cabo Primero"
                           required
                         />
                       </div>

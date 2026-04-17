@@ -46,9 +46,20 @@ export function NavUser() {
         router.push("/simple-login")
     }
 
+    // Nombre de display: nombre_completo del backend
+    const displayName = (currentUser as any).nombre_completo
+        || (currentUser.first_name && currentUser.last_name
+            ? `${currentUser.first_name} ${currentUser.last_name}`
+            : "Usuario")
+
+    // Subtítulo: CE sin dominio (extrae solo el número antes del @)
+    const ceIdentifier = currentUser.email
+        ? currentUser.email.split('@')[0]
+        : ""
+
     // Fallback initials
-    const initials = currentUser.nombre_completo
-        ? currentUser.nombre_completo.split(" ").map((n) => n[0]).join("").toUpperCase().substring(0, 2)
+    const initials = displayName
+        ? displayName.split(" ").map((n: string) => n[0]).join("").toUpperCase().substring(0, 2)
         : "U"
 
     return (
@@ -61,12 +72,12 @@ export function NavUser() {
                             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                         >
                             <Avatar className="h-8 w-8 rounded-lg">
-                                <AvatarImage src="" alt={currentUser.nombre_completo} />
+                                <AvatarImage src="" alt={displayName} />
                                 <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold">{currentUser.nombre_completo}</span>
-                                <span className="truncate text-xs">{currentUser.email}</span>
+                                <span className="truncate font-semibold">{displayName}</span>
+                                <span className="truncate text-xs">CE: {ceIdentifier}</span>
                             </div>
                             <ChevronsUpDown className="ml-auto size-4" />
                         </SidebarMenuButton>
@@ -80,12 +91,12 @@ export function NavUser() {
                         <DropdownMenuLabel className="p-0 font-normal">
                             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                 <Avatar className="h-8 w-8 rounded-lg">
-                                    <AvatarImage src="" alt={currentUser.nombre_completo} />
+                                    <AvatarImage src="" alt={displayName} />
                                     <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold">{currentUser.nombre_completo}</span>
-                                    <span className="truncate text-xs">{currentUser.email}</span>
+                                    <span className="truncate font-semibold">{displayName}</span>
+                                    <span className="truncate text-xs">CE: {ceIdentifier}</span>
                                 </div>
                             </div>
                         </DropdownMenuLabel>
