@@ -118,7 +118,7 @@ export default function SimpleLogin() {
         ce: newUser.ce,
         dni: newUser.ce.toString(),
         username: newUser.ce,
-        email: `${newUser.ce}`,
+        email: `${newUser.ce}@gna.gob.ar`,
 
         // Ubicación por defecto
         provincia_id: "1",
